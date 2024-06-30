@@ -1,0 +1,89 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Text Encryption</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .alert {
+            padding: 10px;
+            background-color: #f44336;
+            color: white;
+            margin-bottom: 15px;
+        }
+        .alert.success {background-color: #4CAF50;}
+        .alert.error {background-color: #f44336;}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Text Encryption</h1>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% if session.get('logged_in') %}
+            <form action="/encrypt" method="post">
+                <label for="text">Text to Encrypt:</label>
+                <textarea id="text" name="text" rows="4" required></textarea>
+                <button type="submit">Encrypt</button>
+            </form>
+            {% if encrypted_text %}
+                <h2>Encrypted Text</h2>
+                <textarea readonly rows="4">{{ encrypted_text }}</textarea>
+            {% endif %}
+            
+            <form action="/decrypt" method="post">
+                <label for="encrypted_text">Text to Decrypt:</label>
+                <textarea id="encrypted_text" name="encrypted_text" rows="4" required></textarea>
+                <button type="submit">Decrypt</button>
+            </form>
+            {% if decrypted_text %}
+                <h2>Decrypted Text</h2>
+                <textarea readonly rows="4">{{ decrypted_text }}</textarea>
+            {% endif %}
+            <a href="/logout">Logout</a>
+        {% else %}
+            <p>You need to <a href="/login">login</a> to use the encryption and decryption services.</p>
+        {% endif %}
+    </div>
+</body>
+</html>
