@@ -1,0 +1,87 @@
+<!-- templates/index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            max-width: 400px;
+            margin: auto;
+        }
+        input[type="number"] {
+            width: 50px;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .password {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .strength {
+            margin-top: 10px;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Password Generator</h1>
+        <form action="/generate" method="post">
+            <label for="length">Password Length:</label>
+            <input type="number" id="length" name="length" value="12" min="1">
+            <div>
+                <input type="checkbox" id="use_lowercase" name="use_lowercase" checked>
+                <label for="use_lowercase">Include lowercase letters</label>
+            </div>
+            <div>
+                <input type="checkbox" id="use_uppercase" name="use_uppercase" checked>
+                <label for="use_uppercase">Include uppercase letters</label>
+            </div>
+            <div>
+                <input type="checkbox" id="use_digits" name="use_digits" checked>
+                <label for="use_digits">Include numbers</label>
+            </div>
+            <div>
+                <input type="checkbox" id="use_punctuation" name="use_punctuation" checked>
+                <label for="use_punctuation">Include special characters</label>
+            </div>
+            <button type="submit">Generate Password</button>
+        </form>
+        {% if error %}
+            <div class="error">{{ error }}</div>
+        {% endif %}
+        {% if password %}
+            <div class="password">Generated Password: {{ password }}</div>
+            <div class="strength">Password Strength: {{ strength }}/4</div>
+        {% endif %}
+    </div>
+</body>
+</html>
